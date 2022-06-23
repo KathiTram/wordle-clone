@@ -1,21 +1,25 @@
-words = ['which', 'other', 'three', 'eagle', 'shady', 'above', 'adult', 'bones', 'bonks', 'cones'];
+words = ['WHICH', 'OTHER', 'THREE', 'EAGLE', 'SHADY', 'ABOVE', 'ADULT', 'BONES', 'BONKS', 'CONES', 'TREES', 'MILES', 'GLOVES'];
 
 let charsOfWord;
-let charsOfChoice;
+let charsOfChoice = [];
 
 const gridContainer = document.querySelector('.gridContainer');
 const box = document.querySelector('.box');
+const letters = document.querySelectorAll(".letter");
 
-function play() {
+let roundNum = 0;
+let letterCounter = 0;
+let boxID = '#box' + roundNum;
+
+let gameWon = false;
+
+function initializeGame() {
     createBoxes(5);
     pickRandomWord();
-    playerEnterWord();
-    compareBothWords();
-    // lettersExistWrongLocation();
-    playerWordsIntoBoxes();
 }
 
-play()
+initializeGame()
+
 
 function createBoxes(numBox) {
     for (let i = 0; i < numBox; i++) {
@@ -35,33 +39,26 @@ function pickRandomWord() {
     return(charsOfWord);
 }
 
-function playerEnterWord() {
-    playerChoice = prompt("enter a word")
-    charsOfChoice = playerChoice.split('');
-    return(charsOfChoice);
-}
+function compareBothWords() {  
+    if (charsOfChoice.toString() === charsOfWord.toString()) {
+        gameWon = true;
+    }
 
-
-function lettersExistWrongLocation() {
-    const intersection = charsOfChoice.filter(element => charsOfWord.includes(element));
-    console.log(intersection);
-    // intersection.forEach(letter => console.log(charsOfChoice.includes(letter)))
-}
-
-
-function compareBothWords() {   
-    const intersection = charsOfChoice.filter(element => charsOfWord.includes(element)); 
     for (i = 0; i < 5; i++) {
-        if (charsOfChoice[i] == charsOfWord[i]) {
-            console.log(`this letter is a match: ${charsOfChoice[i]}`);
-            document.querySelector(`#box0${i}`).style.backgroundColor = 'green';
-        }  else if () {
-            console.log(`the letter ${charsOfChoice[i]} exists but in the wrong location`);
-            document.querySelector(`#box0${i}`).style.backgroundColor = 'yellow';
+        let letterPosition = charsOfWord.indexOf(charsOfChoice[i]);
+        if (letterPosition === -1) {
+            document.querySelector(boxID + i).style.backgroundColor = 'grey';
+            document.getElementById(charsOfChoice[i]).style.backgroundColor = 'grey';
         } else {
-            console.log(`at position ${i} the random letter was ${charsOfWord[i]} and your letter was ${charsOfChoice[i]}`);
-            // document.querySelector(`#box0${i}`).style.backgroundColor = 'red';
-        };
+            if (charsOfChoice[i] == charsOfWord[i]) {
+                console.log(`this letter is a match: ${charsOfChoice[i]}`);
+                document.querySelector(boxID + i).style.backgroundColor = 'green';
+            } else {
+                document.querySelector(boxID + i).style.backgroundColor = 'yellow';
+            }
+
+        }
+
     }
     console.log(`My word is ${charsOfChoice}, the computer choice is ${charsOfWord}`);
 }
@@ -69,8 +66,40 @@ function compareBothWords() {
 
 function playerWordsIntoBoxes() {
     for (let i = 0; i < 5; i++) {
-        document.querySelector(`#box0${i}`).innerText = charsOfChoice[i];
+        document.querySelector(boxID + i).innerText = charsOfChoice[i];
     }
 }
 
+letters.forEach(letter => {
+    letter.addEventListener("click", e => {
+        if (charsOfChoice.length < 5) {
+            charsOfChoice.push(letter.innerHTML);
+            document.querySelector(boxID + letterCounter).innerText = letter.innerHTML;
+            letterCounter += 1
+            console.log(charsOfChoice);
+        } else {
+            console.log('too many characters');
+        }    
+    })
+})
+
+function submitClicked() {
+    compareBothWords();
+    playerWordsIntoBoxes();
+    incrementRound();
+    letterCounter = 0;
+    charsOfChoice = [];
+}
+
+function incrementRound() {
+    roundNum += 1;
+    boxID = '#box' + roundNum
+    if ((roundNum == 5) && (charsOfChoice.toString() != charsOfWord.toString())) {
+        alert('you lose the word was: ' + charsOfWord.join(''));
+    }
+
+    if (gameWon == true) {
+        alert('you win');
+    }
+}
 
