@@ -1,4 +1,4 @@
-words = ['WHICH', 'OTHER', 'THREE', 'EAGLE', 'SHADY', 'ABOVE', 'ADULT', 'BONES', 'BONKS', 'CONES', 'TREES', 'MILES', 'GLOVES'];
+words = ['WHICH', 'OTHER', 'THREE', 'EAGLE', 'SHADY', 'ABOVE', 'ADULT', 'BONES', 'BONKS', 'CONES', 'TREES', 'MILES', 'GLOVES', 'SEIZE', 'PIZZA', 'SPACE', 'LEMON', 'APPLE', 'LUNCH', 'MAYBE', 'CLOTH', 'CLOWN', 'TOWEL', 'STONE', 'EBONY', 'EAGER', 'EXTRA', 'HOPES'];
 
 let charsOfWord;
 let charsOfChoice = [];
